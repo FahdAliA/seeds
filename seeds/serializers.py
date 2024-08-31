@@ -11,6 +11,8 @@ class StartupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Startups
         fields = ['name','year','owner','description',]
+    def create(self, validated_data):
+        return super().create(validated_data)
 
 class GovernBdySerializer(serializers.ModelSerializer):
     class Meta:

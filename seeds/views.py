@@ -14,11 +14,19 @@ def EventsView(request):
     serializer = EventsSerializer(queryset, many=True)
     return Response(serializer.data)
 
-@api_view(['GET',])
+@api_view(['GET','POST',])
 def StartupsView(request):
-    queryset = Startups.objects.all()
-    serializer = StartupSerializer(queryset, many=True)
-    return Response(serializer.data)
+    if request.method == "GET":
+        queryset = Startups.objects.all()
+        serializer = StartupSerializer(queryset, many=True)
+        return Response(serializer.data)
+    if request.method == "POST":
+        serializer = StartupSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET',])
 def GovernbdyView(request):
